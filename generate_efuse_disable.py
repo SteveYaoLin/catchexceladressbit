@@ -12,8 +12,8 @@ try:
 
         # 遍历每一行信息
         for line in lines:
-            # 移除多余的空格，并用单个制表符分隔字段
-            fields = line.strip().split("\t")
+            # 移除多余的空格，并用单个空格分隔字段
+            fields = line.strip().split("  ")
 
             # 检查字段数量是否符合预期
             if len(fields) != 3:
