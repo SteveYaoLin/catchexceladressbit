@@ -12,7 +12,7 @@ try:
 
         # 遍历每一行信息
         for line in lines:
-            # 分割每一行的字段
+            # 移除多余的空格，并用单个制表符分隔字段
             fields = line.strip().split("\t")
 
             # 检查字段数量是否符合预期
