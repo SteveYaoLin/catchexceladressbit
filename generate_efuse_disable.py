@@ -13,7 +13,17 @@ try:
         # 遍历每一行信息
         for line in lines:
             # 分割每一行的字段
-            name, address, bit = line.strip().split("\t")
+            fields = line.strip().split("\t")
+
+            # 检查字段数量是否符合预期
+            if len(fields) != 3:
+                error_message = f"Invalid line format: {line.strip()}"
+                print(error_message)
+                log_file.write(error_message + "\n")
+                continue
+
+            # 解析字段
+            name, address, bit = fields
 
             # 生成对应的C语言程序文件内容
             code = f'''#include "sys_platform.h"
