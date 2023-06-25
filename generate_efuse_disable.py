@@ -1,16 +1,22 @@
 import os
 
-# 读取OUTPUT.txt文件中的信息
-with open("OUTPUT.txt", "r") as file:
-    lines = file.readlines()
+# 定义日志文件名
+log_filename = "script_log.txt"
 
-# 遍历每一行信息
-for line in lines:
-    # 分割每一行的字段
-    name, address, bit = line.strip().split("\t")
+try:
+    # 打开日志文件以写入模式
+    with open(log_filename, "w") as log_file:
+        # 读取OUTPUT.txt文件中的信息
+        with open("OUTPUT.txt", "r") as file:
+            lines = file.readlines()
 
-    # 生成对应的C语言程序文件内容
-    code = f'''#include "sys_platform.h"
+        # 遍历每一行信息
+        for line in lines:
+            # 分割每一行的字段
+            name, address, bit = line.strip().split("\t")
+
+            # 生成对应的C语言程序文件内容
+            code = f'''#include "sys_platform.h"
 #include "efuse_integration_trigger_def.h"
 #ifdef UNDISABLE
 
@@ -45,14 +51,33 @@ int main(int argc, char *argv[])
     return 0;
 }}'''
 
-    # 生成对应的C语言程序文件名
-    filename = f"test_efuse_disable_{name.lower()}.c"
+            # 生成对应的C语言程序文件名
+            filename = f"test_efuse_disable_{name.lower()}.c"
 
-    # 写入C语言程序文件
-    with open(filename, "w") as file:
-        file.write(code)
+            try:
+                # 写入C语言程序文件
+                with open(filename, "w") as file:
+                    file.write(code)
 
-    print(f"Generated {filename}")
+                print(f"Generated {filename}")
+                log_file.write(f"Generated {filename}\n")
+            except Exception as e:
+                error_message = f"Error generating {filename}: {str(e)}"
+                print(error_message)
+                log_file.write(error_message + "\n")
 
-# 提示完成
-print("All files generated successfully.")
+        # 提示完成
+        print("All files generated successfully.")
+        log_file.write("All files generated successfully.\n")
+
+    # 提示日志文件路径
+    print(f"Log file saved as {log_filename}")
+
+except Exception as e:
+    # 发生异常时记录错误日志
+    error_message = f"An error occurred: {str(e)}"
+    print(error_message)
+
+    # 写入错误日志文件
+    with open(log_filename, "w") as log_file:
+        log_file.write(error_message + "\n")
