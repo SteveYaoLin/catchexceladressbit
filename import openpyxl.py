@@ -1,4 +1,5 @@
 import openpyxl
+import os
 
 def extract_signal_information(filepath):
     workbook = openpyxl.load_workbook(filepath)
@@ -31,6 +32,15 @@ def save_information_to_txt(signal_info, offset_info, bit_info, output_filepath)
             output_file.write(f"{signal}\t\t{offset}\t\t{bit}\n")
 
     print(f"信息已保存到：{output_filepath}")
+
+    # 自动打开生成的 output.txt 文件
+    try:
+        os.startfile(output_filepath)
+    except AttributeError:
+        try:
+            subprocess.call(['open', output_filepath])
+        except:
+            pass
 
 # 获取用户输入的Excel文件路径
 excel_filepath = input("请输入Excel文件路径：")
