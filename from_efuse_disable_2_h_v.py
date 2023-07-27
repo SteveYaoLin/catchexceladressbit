@@ -8,11 +8,11 @@ def extract_items_from_txt(file_path):
         return []
 
 def generate_h_file(item, value):
-    h_template = "#define TRIGGER_TB_CONNECT_FUSE_CHECK_{item}        (TRIGGER_VIP_FUSE   + {value} )\n"
+    h_template = "#define TRIGGER_TB_CONNECT_FUSE_CHECK_{item}_DIS        (TRIGGER_VIP_FUSE   + {value} )\n"
     return h_template.format(item=item, value=value)
 
 def generate_v_file(item, value):
-    v_template = "`define TRIGGER_TB_CONNECT_FUSE_CHECK_{item}        (`TRIGGER_VIP_FUSE   + {value})\n"
+    v_template = "`define TRIGGER_TB_CONNECT_FUSE_CHECK_{item}_DIS        (`TRIGGER_VIP_FUSE   + {value})\n"
     return v_template.format(item=item, value=value)
 
 if __name__ == "__main__":
