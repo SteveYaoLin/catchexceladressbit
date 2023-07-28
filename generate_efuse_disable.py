@@ -65,10 +65,10 @@ int main(int argc, char *argv[])
 }}'''
 
             # 去掉名字中的"_disable"后缀
-            name_without_disable = name.replace("_disable", "")
-
+            name_without_disable = name.replace("_DISABLE", "")
+            low_name = name_without_disable.lower()
             # 生成对应的C语言程序文件名
-            filename = f"test_efuse_disable_{name}.c"
+            filename = f"test_efuse_disable_{low_name}.c"
             
             try:
                 # 写入C语言程序文件

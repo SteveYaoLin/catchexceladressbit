@@ -500,5 +500,172 @@ end
 	`TB_END_SIM;
 end
 
+	initial begin
+
+		`TB_TRIGGER_GET(`TRIGGER_TB_CONNECT_FUSE_CHECK_ACMP0_DIS);
+    axi_clk_counter = 0;
+    test0_clk_counter = 0;
+
+    fork
+        while (axi_clk_counter <100) begin
+            @(posedge `AXI_CLK_ROOT); axi_clk_counter = axi_clk_counter+1;
+        end
+        while (1) begin
+            @(posedge `CLK_ACMP0 );
+            test0_clk_counter = test0_clk_counter+1;
+        end
+    join_any
+
+    if( (test0_clk_counter>=1) ) begin
+        `TB_ERROR_COUNTER ++; `TB_END_SIM;
+    end else
+     // `RETURN_PASS_TO_C;
+	`TB_PASS_COUNTER ++;
+	`TB_END_SIM;
+end
+initial begin
+    `TB_TRIGGER_GET(`TRIGGER_TB_CONNECT_FUSE_CHECK_ACMP1_DIS);
+    axi_clk_counter = 0;
+    test0_clk_counter = 0;
+
+    fork
+        while (axi_clk_counter <100) begin
+            @(posedge `AXI_CLK_ROOT); axi_clk_counter = axi_clk_counter+1;
+        end
+        while (1) begin
+            @(posedge `CLK_ACMP1 );
+            test0_clk_counter = test0_clk_counter+1;
+        end
+    join_any
+
+    if( (test0_clk_counter>=1) ) begin
+        `TB_ERROR_COUNTER ++; `TB_END_SIM;
+    end else
+     // `RETURN_PASS_TO_C;
+	`TB_PASS_COUNTER ++;
+	`TB_END_SIM;
+end
+
+initial begin
+    `TB_TRIGGER_GET(`TRIGGER_TB_CONNECT_FUSE_CHECK_ACMP2_DIS);
+    axi_clk_counter = 0;
+    test0_clk_counter = 0;
+
+    fork
+        while (axi_clk_counter <100) begin
+            @(posedge `AXI_CLK_ROOT); axi_clk_counter = axi_clk_counter+1;
+        end
+        while (1) begin
+            @(posedge `CLK_ACMP2 );
+            test0_clk_counter = test0_clk_counter+1;
+        end
+    join_any
+
+    if( (test0_clk_counter>=1) ) begin
+        `TB_ERROR_COUNTER ++; `TB_END_SIM;
+    end else
+     // `RETURN_PASS_TO_C;
+	`TB_PASS_COUNTER ++;
+	`TB_END_SIM;
+end
+
+initial begin
+    `TB_TRIGGER_GET(`TRIGGER_TB_CONNECT_FUSE_CHECK_ACMP3_DIS);
+    axi_clk_counter = 0;
+    test0_clk_counter = 0;
+
+    fork
+        while (axi_clk_counter <100) begin
+            @(posedge `AXI_CLK_ROOT); axi_clk_counter = axi_clk_counter+1;
+        end
+        while (1) begin
+            @(posedge `CLK_ACMP3 );
+            test0_clk_counter = test0_clk_counter+1;
+        end
+    join_any
+
+    if( (test0_clk_counter>=1) ) begin
+        `TB_ERROR_COUNTER ++; `TB_END_SIM;
+    end else
+     // `RETURN_PASS_TO_C;
+	`TB_PASS_COUNTER ++;
+	`TB_END_SIM;
+end
+
+initial begin
+
+    `TB_TRIGGER_GET(`TRIGGER_TB_CONNECT_FUSE_CHECK_ADC0_DIS);
+    axi_clk_counter = 0;
+    test0_clk_counter = 0;
+
+    fork
+        while (axi_clk_counter <100) begin
+            @(posedge `AXI_CLK_ROOT); axi_clk_counter = axi_clk_counter+1;
+        end
+
+        while (1) begin
+            @(posedge `CLK_ADC0 or posedge `CLK_APB_ADC0);
+               test0_clk_counter = test0_clk_counter+1;
+        end
+    join_any
+
+    if( (test0_clk_counter>=1) ) begin
+        `TB_ERROR_COUNTER ++; `TB_END_SIM;
+    end else
+     // `RETURN_PASS_TO_C;
+	`TB_PASS_COUNTER ++;
+	`TB_END_SIM;
+
+end
+
+initial begin
+    `TB_TRIGGER_GET(`TRIGGER_TB_CONNECT_FUSE_CHECK_ADC1_DIS);
+    axi_clk_counter = 0;
+    test0_clk_counter = 0;
+
+    fork
+        while (axi_clk_counter <100) begin
+            @(posedge `AXI_CLK_ROOT); axi_clk_counter = axi_clk_counter+1;
+        end
+
+        while (1) begin
+            @(posedge `CLK_ADC1 or posedge `CLK_APB_ADC1);
+               test0_clk_counter = test0_clk_counter+1;
+        end
+    join_any
+
+    if( (test0_clk_counter>=1) ) begin
+        `TB_ERROR_COUNTER ++; `TB_END_SIM;
+    end else
+     // `RETURN_PASS_TO_C;
+	`TB_PASS_COUNTER ++;
+	`TB_END_SIM;
+end
+
+initial begin
+    `TB_TRIGGER_GET(`TRIGGER_TB_CONNECT_FUSE_CHECK_ADC2_DIS);
+    axi_clk_counter = 0;
+    test0_clk_counter = 0;
+
+    fork
+        while (axi_clk_counter <100) begin
+            @(posedge `AXI_CLK_ROOT); axi_clk_counter = axi_clk_counter+1;
+        end
+
+        while (1) begin
+            @(posedge `CLK_ADC2 or posedge `CLK_APB_ADC2);
+               test0_clk_counter = test0_clk_counter+1;
+        end
+    join_any
+
+    if( (test0_clk_counter>=1) ) begin
+        `TB_ERROR_COUNTER ++; `TB_END_SIM;
+    end else
+     // `RETURN_PASS_TO_C;
+	`TB_PASS_COUNTER ++;
+	`TB_END_SIM;
+end
+
+
 `endif // ifndef POST_SIM
 endmodule
