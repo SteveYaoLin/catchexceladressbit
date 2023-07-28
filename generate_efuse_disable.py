@@ -25,6 +25,9 @@ try:
             # 解析字段
             name, address, bit = fields
 
+            # 去掉"_disable"后缀
+            name = name.replace("_DISABLE", "")
+
             # 生成对应的C语言程序文件内容
             code = f'''#include "sys_platform.h"
 #include "efuse_integration_trigger_def.h"
@@ -32,14 +35,14 @@ try:
 
 const FUSE_DATA fuse_init =
 {{
-    .FUSE_WORDS[0x{address}] = 0x00000000 // {name} disable
+    .FUSE_WORDS[0x{address}] = 0x00000000 , // {name} disable
 }};
 #else
 const FUSE_DATA fuse_init =
 {{
-    .FUSE_WORDS[0x{address}] = 0x00020000 // {name} disable
+    .FUSE_WORDS[0x{address}] = 0x0 | 1<<{bit},// {name} disable
 }};
-#endif
+#endif 0x0 | 1 << {bit}
 
 int main(int argc, char *argv[])
 {{
@@ -61,9 +64,12 @@ int main(int argc, char *argv[])
     return 0;
 }}'''
 
-            # 生成对应的C语言程序文件名
-            filename = f"test_efuse_disable_{name.lower()}.c"
+            # 去掉名字中的"_disable"后缀
+            name_without_disable = name.replace("_disable", "")
 
+            # 生成对应的C语言程序文件名
+            filename = f"test_efuse_disable_{name}.c"
+            
             try:
                 # 写入C语言程序文件
                 with open(filename, "w") as file:
