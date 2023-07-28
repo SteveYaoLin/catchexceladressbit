@@ -94,6 +94,7 @@
 `define TRIGGER_TB_CONNECT_FUSE_CHECK_UART8TOF_DIS        (`TRIGGER_VIP_FUSE   + 89)
 `define TRIGGER_TB_CONNECT_FUSE_CHECK_SPI4567_DIS        (`TRIGGER_VIP_FUSE   + 90)
 `define TRIGGER_TB_CONNECT_FUSE_CHECK_I2C4567_DIS        (`TRIGGER_VIP_FUSE   + 91)
+`define TRIGGER_TB_CONNECT_FUSE_CHECK_CAN4567_DIS        (`TRIGGER_VIP_FUSE   + 92)
 
 `define HIER_ANA `HIER_SOC_MAIN.u_group_ana
 `define AXI_CLK_ROOT       `HIER_SOC_MAIN.u_scg_soc.clk_top_axis
@@ -500,29 +501,6 @@ end
 	`TB_END_SIM;
 end
 
-	initial begin
-
-		`TB_TRIGGER_GET(`TRIGGER_TB_CONNECT_FUSE_CHECK_ACMP0_DIS);
-    axi_clk_counter = 0;
-    test0_clk_counter = 0;
-
-    fork
-        while (axi_clk_counter <100) begin
-            @(posedge `AXI_CLK_ROOT); axi_clk_counter = axi_clk_counter+1;
-        end
-        while (1) begin
-            @(posedge `CLK_ACMP0 );
-            test0_clk_counter = test0_clk_counter+1;
-        end
-    join_any
-
-    if( (test0_clk_counter>=1) ) begin
-        `TB_ERROR_COUNTER ++; `TB_END_SIM;
-    end else
-     // `RETURN_PASS_TO_C;
-	`TB_PASS_COUNTER ++;
-	`TB_END_SIM;
-end
 initial begin
     `TB_TRIGGER_GET(`TRIGGER_TB_CONNECT_FUSE_CHECK_ACMP1_DIS);
     axi_clk_counter = 0;
@@ -666,6 +644,140 @@ initial begin
 	`TB_END_SIM;
 end
 
+initial begin
+
+  `TB_TRIGGER_GET(`TRIGGER_TB_CONNECT_FUSE_CHECK_CAN01_DIS);
+  axi_clk_counter = 0;
+  test0_clk_counter = 0;
+  test1_clk_counter = 0;
+
+  fork
+    while (axi_clk_counter <100) begin
+      @(posedge `AXI_CLK_ROOT); axi_clk_counter = axi_clk_counter+1;
+    end
+
+    while (1) begin
+      @(posedge `CLK_CAN0 or posedge `CLK_APB_CAN0);
+      test0_clk_counter = test0_clk_counter+1;
+    end
+
+    while (1) begin
+      @(posedge `CLK_CAN1 or posedge `CLK_APB_CAN1);
+      test1_clk_counter = test1_clk_counter+1;
+    end
+  join_any
+
+  if( (test0_clk_counter >= 1) | (test1_clk_counter >= 1) ) begin
+    $display("test0 clock counter = %h \ntest1 clock counter = %h \n",
+      test0_clk_counter,test1_clk_counter);
+    `TB_ERROR_COUNTER ++; `TB_END_SIM;
+  end else
+    //`RETURN_PASS_TO_C;
+	`TB_PASS_COUNTER ++;
+       `TB_END_SIM;
+
+ end
+
+
+initial begin
+    `TB_TRIGGER_GET(`TRIGGER_TB_CONNECT_FUSE_CHECK_CAN23_DIS);
+    axi_clk_counter = 0;
+    test0_clk_counter = 0;
+    test1_clk_counter = 0;
+
+    fork
+        while (axi_clk_counter <100) begin
+            @(posedge `AXI_CLK_ROOT); axi_clk_counter = axi_clk_counter+1;
+        end
+
+        while (1) begin
+            @(posedge `CLK_CAN2 or posedge `CLK_APB_CAN2);
+            test0_clk_counter = test0_clk_counter+1;
+        end
+
+        while (1) begin
+            @(posedge `CLK_CAN3 or posedge `CLK_APB_CAN3);
+            test1_clk_counter = test1_clk_counter+1;
+        end
+    join_any
+
+    if( (test0_clk_counter >= 1) | (test1_clk_counter >= 1) ) begin
+        $display("test0 clock counter = %h \ntest1 clock counter = %h \n",
+            test0_clk_counter,test1_clk_counter);
+        `TB_ERROR_COUNTER ++; `TB_END_SIM;
+    end else
+        //`RETURN_PASS_TO_C;
+        `TB_PASS_COUNTER ++;
+        `TB_END_SIM;
+end
+
+initial begin
+    `TB_TRIGGER_GET(`TRIGGER_TB_CONNECT_FUSE_CHECK_CAN4567_DIS);
+    axi_clk_counter = 0;
+    test0_clk_counter = 0;
+    test1_clk_counter = 0;
+    test2_clk_counter = 0;
+    test3_clk_counter = 0;
+    fork
+        while (axi_clk_counter <100) begin
+            @(posedge `AXI_CLK_ROOT); axi_clk_counter = axi_clk_counter+1;
+        end
+
+        while (1) begin
+            @(posedge `CLK_CAN4 or posedge `CLK_APB_CAN4);
+            test0_clk_counter = test0_clk_counter+1;
+        end
+
+        while (1) begin
+            @(posedge `CLK_CAN5 or posedge `CLK_APB_CAN5);
+            test1_clk_counter = test1_clk_counter+1;
+        end
+
+         while (1) begin
+            @(posedge `CLK_CAN6 or posedge `CLK_APB_CAN6);
+            test2_clk_counter = test2_clk_counter+1;
+        end
+
+        while (1) begin
+            @(posedge `CLK_CAN7 or posedge `CLK_APB_CAN7);
+            test3_clk_counter = test3_clk_counter+1;
+        end
+    join_any
+
+    if( (test0_clk_counter >= 1) | (test1_clk_counter >= 1) |  (test3_clk_counter >= 1) | (test2_clk_counter >= 1) ) begin
+        $display("test0 clock counter = %h \ntest1 clock counter = %h \n",
+            test0_clk_counter,test1_clk_counter);
+        `TB_ERROR_COUNTER ++; `TB_END_SIM;
+    end else
+        //`RETURN_PASS_TO_C;
+        `TB_PASS_COUNTER ++;
+        `TB_END_SIM;
+end
+
+initial begin
+
+   `TB_TRIGGER_GET(`TRIGGER_TB_CONNECT_FUSE_CHECK_ETH0_DIS);
+   axi_clk_counter = 0;
+   test0_clk_counter = 0;
+
+   fork
+       while (axi_clk_counter <100) begin
+           @(posedge `AXI_CLK_ROOT); axi_clk_counter = axi_clk_counter+1;
+       end
+       while (1) begin
+           @(posedge `CLK_ACLK_ETH0 or posedge `CLK_PTP_ETH0 or posedge `CLK_ETH_ETH0 or posedge `CLK_MEM_ETH0);
+           test0_clk_counter = test0_clk_counter+1;
+       end
+   join_any
+
+   if( (test0_clk_counter>=1) ) begin
+       `TB_ERROR_COUNTER ++; `TB_END_SIM;
+   end else
+      //`RETURN_PASS_TO_C;
+	`TB_PASS_COUNTER ++;
+       `TB_END_SIM;
+
+end
 
 `endif // ifndef POST_SIM
 endmodule
