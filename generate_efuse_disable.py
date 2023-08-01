@@ -42,7 +42,7 @@ const FUSE_DATA fuse_init =
 {{
     .FUSE_WORDS[0x{address}] = 0x0 | 1<<{bit},// {name} disable
 }};
-#endif 0x0 | 1 << {bit}
+#endif
 
 int main(int argc, char *argv[])
 {{
