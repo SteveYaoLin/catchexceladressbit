@@ -1,9 +1,14 @@
 import openpyxl
 import os
 
-def extract_signal_information(filepath):
+def extract_signal_information(filepath, sheet_number):
     workbook = openpyxl.load_workbook(filepath)
-    sheet = workbook.active
+    sheet_names = workbook.sheetnames
+
+    if sheet_number < 1 or sheet_number > len(sheet_names):
+        raise ValueError("Invalid sheet number")
+
+    sheet = workbook[sheet_names[sheet_number - 1]]
 
     # 读取非零元素的信息
     signal_info = []
@@ -45,8 +50,11 @@ def save_information_to_txt(signal_info, offset_info, bit_info, output_filepath)
 # 获取用户输入的Excel文件路径
 excel_filepath = input("请输入Excel文件路径：")
 
+# 获取用户输入的sheet编号
+sheet_number = int(input("请输入要处理的sheet编号："))
+
 # 提取信息
-signal_info, offset_info, bit_info = extract_signal_information(excel_filepath)
+signal_info, offset_info, bit_info = extract_signal_information(excel_filepath, sheet_number)
 
 # 指定输出文件路径
 output_filepath = 'output.txt'
