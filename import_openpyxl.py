@@ -29,26 +29,12 @@ def extract_signal_information(filepath, sheet_number):
             offset_info.append(offset)
             bit_info.append(bit)
 
-    # for row in range(20, 26):  # 假设地址偏移量在第2行到第5行之间
-    #     for col in range(5, 37):  # 假设bit数在第2列到第33列之间
-    #         signal = sheet.cell(row=row, column=col).value
-    #         offset = sheet.cell(row=row, column=3).value
-    #         bit = sheet.cell(row=3, column=col).value
-
-    #         # 跳过空单元格和标题行
-    #         if signal is None or signal == "SIGNAL" or bit is None:
-    #             continue
-
-    #         signal_info.append(signal)
-    #         offset_info.append(offset)
-    #         bit_info.append(bit)
-
     return signal_info, offset_info, bit_info
 
 def save_information_to_txt(signal_info, offset_info, bit_info, output_filepath):
     with open(output_filepath, 'w') as output_file:
         for signal, offset, bit in zip(signal_info, offset_info, bit_info):
-            output_file.write(f"{signal}\t\t{offset}\t\t{bit}\n")
+            output_file.write(f"{signal}  {offset}  {bit}\n")
 
     print(f"信息已保存到：{output_filepath}")
 
