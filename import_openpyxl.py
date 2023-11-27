@@ -26,7 +26,7 @@ def extract_signal_information(filepath, sheet_number):
                 continue
 
             signal_info.append(signal)
-            offset_info.append(offset)
+            offset_info.append(hex(offset))
             bit_info.append(bit)
 
     return signal_info, offset_info, bit_info
@@ -34,7 +34,7 @@ def extract_signal_information(filepath, sheet_number):
 def save_information_to_txt(signal_info, offset_info, bit_info, output_filepath):
     with open(output_filepath, 'w') as output_file:
         for signal, offset, bit in zip(signal_info, offset_info, bit_info):
-            output_file.write(f"{signal}  {offset}  {bit}\n")
+             output_file.write(f"{signal}  {offset}  {bit}\n")
 
     print(f"信息已保存到：{output_filepath}")
 

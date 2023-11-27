@@ -35,12 +35,12 @@ try:
 
 const FUSE_DATA fuse_init =
 {{
-    .FUSE_WORDS[0x{address}] = 0x00000000 , // {name} disable
+    .FUSE_WORDS[{address}] = 0x00000000 , // {name} disable
 }};
 #else
 const FUSE_DATA fuse_init =
 {{
-    .FUSE_WORDS[0x{address}] = 0x0 | 1<<{bit},// {name} disable
+    .FUSE_WORDS[{address}] = 0x0 | 1<<{bit}, // {name} disable
 }};
 #endif
 
